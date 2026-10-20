@@ -88,7 +88,7 @@ def save_dataclass_to_json_file(obj, path):
     dump_json(dict_, path)
 
 
-def linspace(start: float, stop: float, num_points: int) -> list[float, ...]:
+def linspace(start: float, stop: float, num_points: int, eps:float=1e-5) -> list[float, ...]:
     if num_points < 1:
         raise ValueError("Need at least two points." f" Got: {num_points} points")
     if num_points == 1:
@@ -102,7 +102,7 @@ def linspace(start: float, stop: float, num_points: int) -> list[float, ...]:
     spacing = (stop - start) / num_spaces
     out = [start + i * spacing for i in range(num_points)]
     assert len(out) == num_points
-    assert out[-1] == stop
+    assert (out[-1] >= stop - eps) and (out[-1] <= stop + eps)
     return out
 
 
